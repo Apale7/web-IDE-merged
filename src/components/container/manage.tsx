@@ -1,5 +1,6 @@
 import { Table, Tag, Space, Button, Popconfirm } from "antd";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { deleteContainer, getContainer } from "../../api/container";
 import { container } from "../../api/container";
 import { getUserID } from "../../cache/cache";
@@ -53,6 +54,7 @@ export default function ContainerManage() {
             >
               <a>Delete</a>
             </Popconfirm>
+            <Link to={{pathname:"/prof", search:`?container_id=${record.id}`}}>Start</Link>
           </Space>
         )}
       />

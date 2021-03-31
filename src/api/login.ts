@@ -11,8 +11,8 @@ interface loginResult {
   message: string;
 }
 const login = async (info: loginInfo) => {
-  setAuth(["super"])
-  return { result: true, message: "invalid username or password" };
+  // setAuth(["super"])
+  // return { result: true, message: "invalid username or password" };
   if (!valid(info))
     return { result: false, message: "invalid username or password" };
 

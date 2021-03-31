@@ -21,6 +21,11 @@ interface deleteContainerReq {
   container_id: string;
 }
 
+interface startContainerReq {
+  user_id: number;
+  container_id: string;
+}
+
 const getContainer = async (user_id?: number, container_id?: string) => {
   const res = await axios.get("/admin_api/container/get", {
     params: {
@@ -28,8 +33,8 @@ const getContainer = async (user_id?: number, container_id?: string) => {
       container_id: container_id,
     },
   });
-  console.log('res',res);
-  
+  console.log("res", res);
+
   if (!res || !res.data.data.containers) return [];
   let containers: container[] = [];
   for (let i = 0; i < res.data.data.containers.length; i++) {
@@ -58,4 +63,10 @@ const createContainer = async (req: createContainerReq) => {
   return res.data.status_code === 0;
 };
 
-export { getContainer, deleteContainer, createContainer };
+const startContainer = async (req: startContainerReq) => {
+  const res = await axios.post("/admin_api/container/start", req);
+  if (!res || !res.data) return false;
+  return res.data.status_code === 0;
+};
+
+export { getContainer, deleteContainer, createContainer, startContainer };

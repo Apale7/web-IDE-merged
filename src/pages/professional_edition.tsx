@@ -2,17 +2,22 @@ import "./professional_edition.css";
 import React, { useEffect, useState } from "react";
 import Monaco from "../components/editor/monaco";
 import LanguageSelect from "../components/language_select/language_select";
-import { getCode, getLanguage, getAccessToken } from "../cache/cache";
+import {
+  getCode,
+  getLanguage,
+  getAccessToken,
+  getUserID,
+} from "../cache/cache";
 import MyTerminal from "../components/terminal/terminal";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import DirTree from "../components/dir_tree/dir_tree";
 import axios from "../axios/axiosSetting";
-import { Input } from "antd";
+import { Input, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { isLogin } from "../auth/login";
-import { autoRefresh } from "../axios/axiosSetting";
 import LoginButton from "../components/login_button/login_button";
+import queryString from "query-string";
+import { startContainer } from "../api/container";
 const languages = ["cpp", "java"];
 
 const dirTreeStyle = [
@@ -34,9 +39,11 @@ const saveFile = (containerID: string, path: string, code: string) => {
   });
 };
 
-function ProfessionalEdition() {
+function ProfessionalEdition(props: any) {
   const history = useHistory();
-  const container_id = "container3";
+  const qs = queryString.parse(props.location.search);
+
+  const container_id: string = String(qs.container_id);
   const host = "193.112.177.167:8000";
   const [language, setLanguage] = useState(getLanguage());
   const [code, setCode] = useState("This is the welcome page");
@@ -59,6 +66,17 @@ function ProfessionalEdition() {
     const i = autoSave();
     return () => clearInterval(i);
   });
+  // useEffect(() => {
+  //   const start = async () => {
+  //     const success = await startContainer({
+  //       user_id: getUserID(),
+  //       container_id: container_id,
+  //     });
+  //     if (success) message.success("启动容器成功！");
+  //     else message.error("启动容器失败");
+  //   };
+  //   start();
+  // });
   return (
     <div
       className="App"
@@ -71,17 +89,15 @@ function ProfessionalEdition() {
     >
       <div
         className="Menu"
-        style={{ padding: "8px 8px 8px 8px", display: "flex", backgroundColor: "#2a2d2e" }}
+        style={{
+          padding: "8px 8px 8px 8px",
+          display: "flex",
+          backgroundColor: "#2a2d2e",
+        }}
       >
-        <LanguageSelect
-          setLanguage={setLanguage}
-          setCode={setCode}
-          value={String(language)}
-          // style={{marginRight:'5px'}}
-        />
         <Input
           placeholder="default size"
-          style={{ width: "650px", marginLeft:'5px' }}
+          style={{ width: "650px", marginLeft: "5px" }}
           prefix={<UserOutlined />}
         />
         <LoginButton></LoginButton>
@@ -99,6 +115,7 @@ function ProfessionalEdition() {
             style={dirTreeStyle[0]}
             setCode={setCode}
             setSelectedFile={setSelectedFile}
+            container_id={container_id}
           />
         </div>
         <div
@@ -127,4 +144,4 @@ function ProfessionalEdition() {
   );
 }
 
-export default ProfessionalEdition;
+export default withRouter(ProfessionalEdition);

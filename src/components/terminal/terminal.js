@@ -18,6 +18,7 @@ class MyTerminal extends React.Component {
     this.closeRealTerminal = this.closeRealTerminal.bind(this);
     this.ConnectToServer = this.ConnectToServer.bind(this);
     this.token = getAccessToken();
+    console.log(this.container_id);
     console.log(this.token);
   }
   runRealTerminal(res) {

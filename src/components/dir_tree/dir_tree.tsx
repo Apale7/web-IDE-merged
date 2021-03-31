@@ -72,7 +72,7 @@ const DirTree = (props: any) => {
         return;
       }
 
-      await getDirectory("container3", key).then((res) => {
+      await getDirectory(props.container_id, key).then((res) => {
         console.log(res);
         setTreeData((origin) =>
           updateTreeData(
