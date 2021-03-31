@@ -1,0 +1,25 @@
+#run {
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 1;
+    background-color: rgba(44, 178, 92, 1);
+    color: rgba(244, 249, 246, 1);
+    font-size: 14px;
+    padding: 6px 12px 6px 12px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+.ButtonStyle {
+    float: right;
+}
+.ButtonStyle button{
+    width: 100px;
+    height: 30px;
+    margin: 0 2px 0 2px;
+}
