@@ -3,6 +3,7 @@ import { Tree } from "antd";
 
 import axios from "../../axios/axiosSetting";
 import { log } from "console";
+import { languageID } from "../language_select/language_select";
 
 const { DirectoryTree } = Tree;
 
@@ -100,9 +101,16 @@ const DirTree = (props: any) => {
 
   const onSelect = (selectedKeys: any, info: any) => {
     if (selectedKeys.length <= 0) return;
+    if (selectedKeys[0][selectedKeys[0].length - 1] === "/") {
+      onLoadData({ key: selectedKeys[0] });
+      return;
+    }
     console.log(selectedKeys[0]);
-    getFile("container3", selectedKeys[0]).then((res) => {
-      console.log(res.data.data.files[0].content);
+    console.log(info);
+    getFile(props.container_id, selectedKeys[0]).then((res) => {
+      const tmp:[] = selectedKeys[0].split(".")
+      props.setLanguage(languageID[tmp[tmp.length - 1]])
+      console.log(res.data.data.files[0]);
       props.setCode(res.data.data.files[0].content);
       props.setSelectedFile(selectedKeys[0]);
     });
@@ -113,7 +121,7 @@ const DirTree = (props: any) => {
       return;
     }
     console.log(info);
-    if (info.expanded) onLoadData({ key: expandedKeys[0] });
+    if (!info.expanded) onLoadData({ key: expandedKeys[0] });
   };
   return (
     <DirectoryTree
@@ -123,6 +131,7 @@ const DirTree = (props: any) => {
       onSelect={onSelect}
       height={950}
       onExpand={onExpand}
+      blockNode
     />
   );
 };

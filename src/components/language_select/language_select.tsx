@@ -25,3 +25,6 @@ export default function LanguageSelect(props: any) {
     </Select>
   );
 }
+
+const languageID = {cpp: 0,java: 1, js:2, py:3}
+export {languageID}

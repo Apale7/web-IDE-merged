@@ -13,12 +13,12 @@ import MyTerminal from "../components/terminal/terminal";
 import { useHistory, withRouter } from "react-router-dom";
 import DirTree from "../components/dir_tree/dir_tree";
 import axios from "../axios/axiosSetting";
-import { Input, message } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Button, Input, message, Form } from "antd";
+import { FileOutlined } from "@ant-design/icons";
 import LoginButton from "../components/login_button/login_button";
 import queryString from "query-string";
 import { startContainer } from "../api/container";
-const languages = ["cpp", "java"];
+const languages = ["cpp", "java", "javascript", "python"];
 
 const dirTreeStyle = [
   {
@@ -66,17 +66,23 @@ function ProfessionalEdition(props: any) {
     const i = autoSave();
     return () => clearInterval(i);
   });
-  // useEffect(() => {
-  //   const start = async () => {
-  //     const success = await startContainer({
-  //       user_id: getUserID(),
-  //       container_id: container_id,
-  //     });
-  //     if (success) message.success("启动容器成功！");
-  //     else message.error("启动容器失败");
-  //   };
-  //   start();
-  // });
+  useEffect(() => {
+    const start = async () => {
+      const success = await startContainer({
+        user_id: getUserID(),
+        container_id: container_id,
+      });
+      if (success) message.success("启动容器成功！");
+      else message.error("启动容器失败");
+    };
+    start();
+  }, []);
+
+  const [path, setPath] = useState("/root/");
+  const onOpenClick = (a: any) => {
+    setPath(a.path)
+    console.log(a);
+  };
   return (
     <div
       className="App"
@@ -95,11 +101,21 @@ function ProfessionalEdition(props: any) {
           backgroundColor: "#2a2d2e",
         }}
       >
-        <Input
-          placeholder="default size"
-          style={{ width: "650px", marginLeft: "5px" }}
-          prefix={<UserOutlined />}
-        />
+        <Form layout="inline" onFinish={onOpenClick}>
+          <Form.Item name="path">
+            <Input
+              placeholder={path}
+              style={{ width: "650px", marginLeft: "5px" }}
+              prefix={<FileOutlined />}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              open
+            </Button>
+          </Form.Item>
+        </Form>
+
         <LoginButton></LoginButton>
       </div>
       <div style={{ display: "flex", height: "93%", overflow: "hidden" }}>
@@ -116,6 +132,7 @@ function ProfessionalEdition(props: any) {
             setCode={setCode}
             setSelectedFile={setSelectedFile}
             container_id={container_id}
+            setLanguage={setLanguage}
           />
         </div>
         <div
