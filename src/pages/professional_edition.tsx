@@ -78,7 +78,7 @@ function ProfessionalEdition(props: any) {
     start();
   }, []);
 
-  const [path, setPath] = useState("/root/");
+  const [path, setPath] = useState("/");
   const onOpenClick = (a: any) => {
     setPath(a.path)
     console.log(a);
@@ -104,7 +104,7 @@ function ProfessionalEdition(props: any) {
         <Form layout="inline" onFinish={onOpenClick}>
           <Form.Item name="path">
             <Input
-              placeholder={path}
+              defaultValue={path}
               style={{ width: "650px", marginLeft: "5px" }}
               prefix={<FileOutlined />}
             />
@@ -133,6 +133,7 @@ function ProfessionalEdition(props: any) {
             setSelectedFile={setSelectedFile}
             container_id={container_id}
             setLanguage={setLanguage}
+            path={path}
           />
         </div>
         <div
