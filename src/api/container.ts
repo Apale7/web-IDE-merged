@@ -69,4 +69,26 @@ const startContainer = async (req: startContainerReq) => {
   return res.data.status_code === 0;
 };
 
-export { getContainer, deleteContainer, createContainer, startContainer };
+const getDirectory = async (containerID: string, path: string) => {
+  const res = await axios.get("/api/file/dir", {
+    params: {
+      container_id: containerID,
+      path: path,
+    },
+  });
+  if (!res || !res.data || !res.data.data) return [];
+  return res.data.data;
+};
+
+export interface FileStat {
+  file_type: number;
+  file_name: string;
+}
+
+export {
+  getContainer,
+  deleteContainer,
+  createContainer,
+  startContainer,
+  getDirectory,
+};

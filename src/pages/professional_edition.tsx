@@ -1,23 +1,17 @@
 import "./professional_edition.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Monaco from "../components/editor/monaco";
-import LanguageSelect from "../components/language_select/language_select";
-import {
-  getCode,
-  getLanguage,
-  getAccessToken,
-  getUserID,
-} from "../cache/cache";
+import { getLanguage, getUserID } from "../cache/cache";
 import MyTerminal from "../components/terminal/terminal";
 
-import { useHistory, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import DirTree from "../components/dir_tree/dir_tree";
 import axios from "../axios/axiosSetting";
-import { Button, Input, message, Form } from "antd";
+import { Button, Input, message, Form, AutoComplete } from "antd";
 import { FileOutlined } from "@ant-design/icons";
 import LoginButton from "../components/login_button/login_button";
 import queryString from "query-string";
-import { startContainer } from "../api/container";
+import { FileStat, getDirectory, startContainer } from "../api/container";
 const languages = ["cpp", "java", "javascript", "python"];
 
 const dirTreeStyle = [
@@ -40,18 +34,38 @@ const saveFile = (containerID: string, path: string, code: string) => {
 };
 
 function ProfessionalEdition(props: any) {
-  const history = useHistory();
+  // const history = useHistory();
   const qs = queryString.parse(props.location.search);
 
-  const container_id: string = String(qs.container_id);
-  const host = "193.112.177.167:8000";
-  const [language, setLanguage] = useState(getLanguage());
-  const [code, setCode] = useState("This is the welcome page");
-  const [selectedFile, setSelectedFile] = useState("");
-  const [needSave, setNeedSave] = useState(false);
-  // const size = useWindowSize();
-  // const [output, setOutput] = useState("");
-  // const [tabKey, setTabKey] = useState("1");
+  const container_id: string = String(qs.container_id); //容器id
+  const host = "193.112.177.167:8000"; //终端服务器的host
+  const [language, setLanguage] = useState(getLanguage()); //当前文件的语言，打开文件时根据后缀名自动识别
+  const [code, setCode] = useState("This is the welcome page"); //当前编辑器中的内容
+  const [selectedFile, setSelectedFile] = useState(""); //当前打开的文件的路径
+  const [needSave, setNeedSave] = useState(false); //修改文件后为true，触发自动保存
+  const [path, setPath] = useState("/root/"); //当前打开的文件夹路径
+
+  const [options, setOptions] = useState<{ value: string }[]>([]);
+  const onSearch = async (searchText: string) => {
+    if (!searchText) setOptions([]);
+    const prefix = searchText.substring(0, searchText.lastIndexOf("/") + 1);
+    console.log("prefix: ", prefix);
+
+    const files: [] = await getDirectory(container_id, prefix);
+    // console.log(files);
+    
+    setOptions(
+      files.map((file: FileStat) => {
+        return { value: String(prefix + file.file_name) };
+      })
+    );
+  };
+  const onSelect = (data: string) => {
+    // props.setPath(data);
+  };
+  const onChange = (data: string) => {
+    // props.setPath(data);
+  };
   const autoSave = () => {
     const myInterval = setInterval(() => {
       if (!needSave) return;
@@ -78,10 +92,9 @@ function ProfessionalEdition(props: any) {
     start();
   }, []);
 
-  const [path, setPath] = useState("/");
   const onOpenClick = (a: any) => {
-    setPath(a.path)
-    console.log(a);
+    setPath(a.path);
+    // console.log(a);
   };
   return (
     <div
@@ -103,10 +116,13 @@ function ProfessionalEdition(props: any) {
       >
         <Form layout="inline" onFinish={onOpenClick}>
           <Form.Item name="path">
-            <Input
-              defaultValue={path}
+            <AutoComplete
+              options={options}
               style={{ width: "650px", marginLeft: "5px" }}
-              prefix={<FileOutlined />}
+              onSelect={onSelect}
+              onSearch={onSearch}
+              onChange={onChange}
+              defaultValue={path}
             />
           </Form.Item>
           <Form.Item>
