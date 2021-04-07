@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Tree } from "antd";
+import { message, Tree } from "antd";
 
 import axios from "../../axios/axiosSetting";
-import { languageID } from "../language_select/language_select";
+import { languageID,supportedLanguages } from "../language_select/language_select";
 import { TreeMap } from "jstreemap";
+import { FileStat, getDirectory } from "../../api/container";
 const { DirectoryTree } = Tree;
 
 interface DataNode {
@@ -40,19 +41,7 @@ function updateTreeData(
   });
 }
 
-interface FileStat {
-  file_type: number;
-  file_name: string;
-}
 
-async function getDirectory(containerID: string, path: string) {
-  return axios.get("/api/file/dir", {
-    params: {
-      container_id: containerID,
-      path: path,
-    },
-  });
-}
 
 async function getFile(containerID: string, path: string) {
   return axios.get("/api/file/file", {
@@ -69,8 +58,29 @@ const DirTree = (props: any) => {
   ]);
   useEffect(() => {
     console.log(props.path);
-    
-    setTreeData([{ title: props.path, key: props.path }]);
+    const path:any = props.path
+    if (path[path.length - 1] === "/")
+    setTreeData([{ title: path, key: path }]);
+    else {
+      const prefix = path.substring(0, path.lastIndexOf("/") + 1);
+      setTreeData([{ title: prefix, key: prefix }]);
+      getFile(props.container_id, path).then((res) => {
+        const tmp:[] = path.split(".");
+        if (supportedLanguages.includes(tmp[tmp.length - 1]))
+        {
+          // console.log(tmp[tmp.length - 1]);
+          
+          props.setLanguage(languageID[tmp[tmp.length - 1]]);
+        }
+        if (res && res.data && res.data.data && res.data.data.files.length > 0)
+        {
+          props.setCode(res.data.data.files[0].content);
+          props.setSelectedFile(path);
+        } else {
+          message.error("文件路径有误！")
+        }
+      });
+    }
   }, [props.path]);
   const onLoadData = ({ key, children }: any) => {
     console.log(key);
@@ -83,13 +93,13 @@ const DirTree = (props: any) => {
         return;
       }
 
-      const res = await getDirectory(props.container_id, key);
-      console.log(res);
+      const files = await getDirectory(props.container_id, key);
+      console.log(files);
       setTreeData((origin) =>
         updateTreeData(
           origin,
           key,
-          res.data.data.map((fileStat: FileStat) => {
+          files.map((fileStat: FileStat) => {
             const tmp: DataNode = {
               title: fileStat.file_name,
               key:
