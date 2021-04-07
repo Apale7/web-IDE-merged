@@ -48,8 +48,8 @@ const login = async (info: loginInfo) => {
     } minutes`
   );
   console.log(res.data.data.auth);
-  setAuth(res.data.data.auth)
-  setUserID(res.data.data.user_id)
+  setAuth(res.data.data.auth);
+  setUserID(res.data.data.user_id);
   return result;
 };
 

@@ -38,7 +38,7 @@ export default function ImageCreate() {
       <TabPane tab="by repo url" key="2">
         <PullImage></PullImage>
       </TabPane>
-      <TabPane tab="by uoload" key="3">
+      <TabPane tab="by upload" key="3">
         <UploadImage></UploadImage>
       </TabPane>
     </Tabs>

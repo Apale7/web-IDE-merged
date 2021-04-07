@@ -8,7 +8,7 @@ import {
 // import { createBrowserHistory } from "history";
 
 import AppRouterComponent from "./routes/app_routes";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { useState } from "react";
 import { getAuth } from "./cache/cache";
 import { hasAuths } from "./components/auth_route/auth_route";
@@ -16,13 +16,13 @@ import { hasLogined } from "./auth/login";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-const MyLayOut = () => {
+const MyLayOut = (props: any) => {
   const [auths, setAuths] = useState(getAuth());
   const base = "/admin";
   // const history = createBrowserHistory();
   return (
     <Layout style={{ height: "100%" }}>
-      <Header className="header" style={{ height: "50px"}}>
+      <Header className="header" style={{ height: "50px" }}>
         {/* <div className="logo" /> */}
         {/* <Menu
           theme="dark"
@@ -33,8 +33,17 @@ const MyLayOut = () => {
           <Menu.Item key="2">nav 2</Menu.Item>
           <Menu.Item key="3">nav 3</Menu.Item>
         </Menu> */}
-        <div style={{ }}>
-          <Button type="primary" style={{ float: "right", marginTop:'8px' }}>
+        <div style={{}}>
+          <Button
+            type="primary"
+            style={{ float: "right", marginTop: "8px" }}
+            onClick={() => {
+              if (hasLogined()) {
+                window.localStorage.clear();
+                props.history.push("/comm");
+              } else props.history.push("/login");
+            }}
+          >
             {hasLogined() ? "Sign Out" : "Sign In"}
           </Button>
         </div>
@@ -104,4 +113,4 @@ const MyLayOut = () => {
     </Layout>
   );
 };
-export default MyLayOut;
+export default withRouter(MyLayOut);
