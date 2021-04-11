@@ -7,11 +7,13 @@ import axios from "axios";
 import LanguageSelect from "../components/language_select/language_select";
 import { getCode, getLanguage } from "../cache/cache";
 import LoginButton from "../components/login_button/login_button";
+import { Header } from "antd/lib/layout/layout";
+import { withRouter } from "react-router";
 const { TabPane } = Tabs;
 const languages = ["cpp", "java"];
 const { TextArea } = Input;
 
-function CommunityEdition() {
+function CommunityEdition(props: any) {
   const [language, setLanguage] = useState(getLanguage());
   const [code, setCode] = useState(getCode(language));
   const [input, setInput] = useState("");
@@ -40,9 +42,10 @@ function CommunityEdition() {
         padding: "0",
       }}
     >
-      <div
+      <Header
         className="Menu"
         style={{
+          height: "50px",
           padding: "8px 8px 8px 8px",
           display: "flex",
           backgroundColor: "#2a2d2e",
@@ -54,9 +57,21 @@ function CommunityEdition() {
           value={String(language)}
           className="ButtonStyle"
         />
-        <LoginButton></LoginButton>
-      </div>
-
+        <div
+          style={{ alignSelf: "center", marginLeft: "auto", display: "flex" }}
+        >
+          <Button
+            onClick={() => {
+              props.history.push("/admin");
+            }}
+            style={{ margin: "0 2px 0 2px" }}
+            // size="small"
+          >
+            专业版
+          </Button>
+          <LoginButton></LoginButton>
+        </div>
+      </Header>
       <div style={{ height: "65%" }}>
         <Monaco language={languages[language]} setCode={setCode} code={code} />
       </div>
@@ -122,4 +137,4 @@ function MyTabs(props: any) {
   );
 }
 
-export default CommunityEdition;
+export default withRouter(CommunityEdition);

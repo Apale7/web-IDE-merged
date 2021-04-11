@@ -1,10 +1,12 @@
 import axios from "../axios/axiosSetting";
 import { parseUnixToLocalTimeString } from "../utils/time";
 export interface group {
+  key: string | number;
   id: number;
   created: number | string;
   ownerID: number;
   name: string;
+  owner: string;
 }
 
 interface getGroupReqParams {
@@ -26,12 +28,16 @@ const getGroup = async (req: getGroupReqParams) => {
   for (let i = 0; i < res.data.data.groups.length; i++) {
     const e = res.data.data.groups[i];
     groups.push({
+      key: i,
       id: e.id,
       created: parseUnixToLocalTimeString(e.created_at),
       ownerID: e.owner_id,
       name: e.group_name,
+      owner: e.owner,
     });
   }
+  console.log(groups);
+  
   return groups;
 };
 
@@ -59,7 +65,7 @@ const JoinGroup = async (userID: number, groupID: number) => {
   return res.data.status_code === 0;
 };
 
-interface groupMember {
+export interface groupMember {
   user_id: number;
   nickname: string;
   email: string;
@@ -71,7 +77,9 @@ const getGroupMembers = async (groupID: number) => {
   const res = await axios.get("/admin_api/group/get_group_members", {
     params: { group_id: groupID },
   });
-  if (!res || !res.data.data.groups) return [];
+  // console.log(res);
+
+  if (!res || !res.data.data.members) return [];
   const members: groupMember[] = [];
   for (let i = 0; i < res.data.data.members.length; i++) {
     const e = res.data.data.members[i];

@@ -5,6 +5,7 @@ import { login } from "../api/login";
 import { withRouter } from "react-router";
 import { useEffect } from "react";
 import { isLogin } from "../auth/login";
+import { Link } from "react-router-dom";
 const Login = (props: any) => {
   useEffect(() => {
     if (isLogin()) {
@@ -72,7 +73,7 @@ const Login = (props: any) => {
           >
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <Link to="/register">register now!</Link>
         </Form.Item>
       </Form>
     </div>

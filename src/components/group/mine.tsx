@@ -23,16 +23,6 @@ export default function GroupMine() {
         <Column title="创建者" dataIndex="owner" key="owner" />
         <Column title="创建时间" dataIndex="created" />
         <Column title="名称" dataIndex="name" key="name" />
-        <Column
-          title="Action"
-          key="action"
-          render={(text, record: any) => (
-            <Space size="middle">
-              <a>Invite {record.lastName}</a>
-              <a>Delete</a>
-            </Space>
-          )}
-        />
       </Table>
     </div>
   );

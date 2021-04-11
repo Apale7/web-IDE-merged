@@ -1,7 +1,8 @@
 import { Table, Space } from "antd";
-import { useEffect, useState } from "react";
-import { getGroup, group } from "../../api/group";
+import React, { useEffect, useState } from "react";
+import { getGroup, getGroupMembers, group } from "../../api/group";
 import { getUserID } from "../../cache/cache";
+import MemberList from "./member_table";
 
 const { Column } = Table;
 
@@ -14,6 +15,12 @@ export default function GroupManage() {
     };
     initGroupList();
   }, []);
+
+  const onGetGroupMembers = async (id: number) => {
+    const members = await getGroupMembers(id);
+    console.log(members);
+  };
+
   return (
     <Table dataSource={groups} pagination={{ defaultPageSize: 8 }}>
       <Column title="ID" dataIndex="id" key="id" ellipsis={true} />
@@ -25,7 +32,14 @@ export default function GroupManage() {
         key="action"
         render={(text, record: any) => (
           <Space size="middle">
-            <a>成员信息</a>
+            <MemberList
+            group_id={record.id}
+              onClick={() => {
+                onGetGroupMembers(record.id);
+              }}
+            >
+              成员信息
+            </MemberList>
           </Space>
         )}
       />

@@ -7,11 +7,12 @@ import MyTerminal from "../components/terminal/terminal";
 import { withRouter } from "react-router-dom";
 import DirTree from "../components/dir_tree/dir_tree";
 import axios from "../axios/axiosSetting";
-import { Button, Input, message, Form, AutoComplete } from "antd";
+import { Button, Input, message, Form, AutoComplete, Menu } from "antd";
 import { FileOutlined } from "@ant-design/icons";
 import LoginButton from "../components/login_button/login_button";
 import queryString from "query-string";
 import { FileStat, getDirectory, startContainer } from "../api/container";
+import { Header } from "antd/lib/layout/layout";
 const languages = ["cpp", "java", "javascript", "python"];
 
 const dirTreeStyle = [
@@ -53,7 +54,7 @@ function ProfessionalEdition(props: any) {
 
     const files: [] = await getDirectory(container_id, prefix);
     // console.log(files);
-    
+
     setOptions(
       files.map((file: FileStat) => {
         return { value: String(prefix + file.file_name) };
@@ -106,9 +107,10 @@ function ProfessionalEdition(props: any) {
         padding: "0",
       }}
     >
-      <div
+      <Header
         className="Menu"
         style={{
+          height: "50px",
           padding: "8px 8px 8px 8px",
           display: "flex",
           backgroundColor: "#2a2d2e",
@@ -131,9 +133,16 @@ function ProfessionalEdition(props: any) {
             </Button>
           </Form.Item>
         </Form>
+        <Button
+          onClick={() => {
+            props.history.push("/comm");
+          }}
+        >
+          社区版
+        </Button>
 
         <LoginButton></LoginButton>
-      </div>
+      </Header>
       <div style={{ display: "flex", height: "93%", overflow: "hidden" }}>
         <div
           style={{

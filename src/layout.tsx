@@ -46,6 +46,14 @@ const MyLayOut = (props: any) => {
           >
             {hasLogined() ? "Sign Out" : "Sign In"}
           </Button>
+          <Button
+            onClick={() => {
+              props.history.push("/comm");
+            }}
+            style={{ marginTop: "8px", float: "right", marginRight:"5px" }}
+          >
+            社区版
+          </Button>
         </div>
       </Header>
       <Layout>
