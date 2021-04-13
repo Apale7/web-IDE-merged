@@ -36,7 +36,7 @@ export default function GroupJoin(props: any) {
   useEffect(() => {
     const initGroupList = async () => {
       const groups = await getGroup({
-        owner_id: getUserID(),
+        // owner_id: getUserID(),
         have_me: false,
         member_id: getUserID(),
       });
@@ -66,8 +66,13 @@ export default function GroupJoin(props: any) {
       >
         <Form
           layout="inline"
-          onFinish={(a: any) => {
-            console.log(a);
+          onFinish={async (a: any) => {
+            const groups = await getGroup({
+              have_me: false,
+              ...a,
+              member_id: getUserID(),
+            });
+            setGroups(groups);
           }}
         >
           <Form.Item label="OwnerID" style={{ width: "250px" }} name="owner_id">

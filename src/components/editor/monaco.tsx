@@ -10,7 +10,8 @@ export default function Monaco(props: any) {
 
     props.setCode(code);
     if (props.setNeedSave) props.setNeedSave(true);
-    storeCode(getLanguage(), code);
+    if (!props.prof)
+      storeCode(getLanguage(), code);
   };
   const onMounted = (editor: any, monaco: any) => {
     console.log("language", props.language);

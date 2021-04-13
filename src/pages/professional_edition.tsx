@@ -133,15 +133,20 @@ function ProfessionalEdition(props: any) {
             </Button>
           </Form.Item>
         </Form>
-        <Button
-          onClick={() => {
-            props.history.push("/comm");
-          }}
+        <div
+          style={{ alignSelf: "center", marginLeft: "auto", display: "flex" }}
         >
-          社区版
-        </Button>
-
-        <LoginButton></LoginButton>
+          <Button
+            onClick={() => {
+              props.history.push("/comm");
+            }}
+            style={{ margin: "1px 2px 0 2px" }}
+            // size="small"
+          >
+            社区版
+          </Button>
+          <LoginButton></LoginButton>
+        </div>
       </Header>
       <div style={{ display: "flex", height: "93%", overflow: "hidden" }}>
         <div

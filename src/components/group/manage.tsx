@@ -33,7 +33,8 @@ export default function GroupManage() {
         render={(text, record: any) => (
           <Space size="middle">
             <MemberList
-            group_id={record.id}
+              group_id={record.id}
+              name={record.name}
               onClick={() => {
                 onGetGroupMembers(record.id);
               }}

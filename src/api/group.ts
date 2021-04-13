@@ -37,7 +37,7 @@ const getGroup = async (req: getGroupReqParams) => {
     });
   }
   console.log(groups);
-  
+
   return groups;
 };
 
@@ -66,6 +66,7 @@ const JoinGroup = async (userID: number, groupID: number) => {
 };
 
 export interface groupMember {
+  key: string | number;
   user_id: number;
   nickname: string;
   email: string;
@@ -84,6 +85,7 @@ const getGroupMembers = async (groupID: number) => {
   for (let i = 0; i < res.data.data.members.length; i++) {
     const e = res.data.data.members[i];
     members.push({
+      key: String(i + 1),
       ...e,
     });
   }

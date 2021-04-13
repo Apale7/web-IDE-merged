@@ -64,7 +64,7 @@ function CommunityEdition(props: any) {
             onClick={() => {
               props.history.push("/admin");
             }}
-            style={{ margin: "0 2px 0 2px" }}
+            style={{ margin: "1px 2px 0 2px" }}
             // size="small"
           >
             专业版

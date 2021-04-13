@@ -36,7 +36,7 @@ export default function MemberList(props: any) {
     <>
       <a onClick={()=> {showModal()}}>成员信息</a>
       <Modal
-        title="班级成员"
+        title={props.name + '的成员'}
         visible={visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}
@@ -44,6 +44,7 @@ export default function MemberList(props: any) {
         width={"800px"}
       >
         <Table dataSource={members} pagination={{ defaultPageSize: 8 }}>
+          <Column title="序号" dataIndex="key" key="id"></Column>
           <Column title="姓名" dataIndex="nickname" key="nickname" />
           {/* <Column title="加入时间" dataIndex="created" /> */}
           {/* <Column title="组织名" dataIndex="name" key="name" /> */}

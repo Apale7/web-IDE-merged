@@ -70,7 +70,7 @@ const CreateByDockerFile = (props: any) => {
           { required: true, message: "用于初始化docker镜像，必须填写！" },
         ]}
       >
-        <TextArea style={{ height: "500px" }} />
+        <TextArea style={{ height: "400px" }} />
       </Form.Item>
 
       <Form.Item {...tailLayout}>
