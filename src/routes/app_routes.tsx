@@ -34,6 +34,7 @@ export default function AppRouterComponent(props: any) {
         path={`${props.parent}/group_create`}
         component={GroupCreate}
         auth={["group", "group_admin"]}
+        //创建团队需要group权限和group_admin权限
       ></AuthRoute>
       <AuthRoute
         path={`${props.parent}/group_manage`}
@@ -44,6 +45,7 @@ export default function AppRouterComponent(props: any) {
         path={`${props.parent}/group_mine`}
         component={GroupMine}
         auth={["group"]}
+        //查看自己的团队需要group权限
       ></AuthRoute>
     </Switch>
   );
