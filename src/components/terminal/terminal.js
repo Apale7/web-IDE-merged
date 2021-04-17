@@ -18,8 +18,7 @@ class MyTerminal extends React.Component {
     this.closeRealTerminal = this.closeRealTerminal.bind(this);
     this.ConnectToServer = this.ConnectToServer.bind(this);
     this.token = getAccessToken();
-    console.log(this.container_id);
-    console.log(this.token);
+    this.reconnecting = false;
   }
   runRealTerminal(res) {
     this.closed = false;
@@ -56,17 +55,22 @@ class MyTerminal extends React.Component {
     console.log("mounted is going on");
     var __this = this;
     this.term.onData(function (key) {
+      if (__this.reconnecting) {
+        return;
+      }
+
+      if (!isLogin()) {
+        __this.term.writeln("trying to auto_refresh...");
+        await autoRefresh().then(() => {
+          __this.token = getAccessToken();
+        });
+      }
+
       if (__this.closed === true) {
+        __this.reconnecting = true;
         __this.term.writeln("Terminl reconnected...");
-        if (!isLogin()) {
-          __this.term.writeln("trying to auto_refresh...");
-          // __this.term.writeln("Redirect to login page...");
-          autoRefresh().then(()=>{
-            __this.token = getAccessToken();
-            // __this.remoteHost = `ws://${host}/echo/${__this.container_id}?token=${__this.token}`;
-          });
-        }
         __this.ConnectToServer(__this.host);
+        __this.reconnecting = false;
       }
     });
   }

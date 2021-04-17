@@ -39,7 +39,7 @@ function ProfessionalEdition(props: any) {
   const qs = queryString.parse(props.location.search);
 
   const container_id: string = String(qs.container_id); //容器id
-  const host = "193.112.177.167:8000"; //终端服务器的host
+  const host = "192.168.101.66:8000"; //终端服务器的host
   const [language, setLanguage] = useState(getLanguage()); //当前文件的语言，打开文件时根据后缀名自动识别
   const [code, setCode] = useState("This is the welcome page"); //当前编辑器中的内容
   const [selectedFile, setSelectedFile] = useState(""); //当前打开的文件的路径

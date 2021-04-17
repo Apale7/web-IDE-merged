@@ -33,7 +33,7 @@ function setTokens(
   refreshExp: number
 ) {
   // console.log('setTokens called');
-  
+
   set("access_token", accessToken);
   set("refresh_token", refreshToken);
   set("refresh_exp", String(refreshExp));
@@ -53,6 +53,11 @@ function getAccessToken() {
   return accessToken;
 }
 
+function getRefreshToken() {
+  const refreshToken = get("refresh_token");
+  return refreshToken;
+}
+
 function getAuth() {
   if (get("auths") === "") return [];
   let auths: string[];
@@ -69,7 +74,7 @@ function setUserID(userID: number) {
 }
 
 function getUserID() {
-  return Number(get("user_id"))
+  return Number(get("user_id"));
 }
 
 export {
@@ -83,5 +88,5 @@ export {
   getAuth,
   setAuth,
   setUserID,
-  getUserID
+  getUserID,
 };
