@@ -28,7 +28,7 @@ export default function AppRouterComponent(props: any) {
       <AuthRoute
         path={`${props.parent}/image_manage`}
         component={ImageManage}
-        auth={["image"]}
+        auth={["image", "image_admin"]}
       ></AuthRoute>
       <AuthRoute
         path={`${props.parent}/group_create`}

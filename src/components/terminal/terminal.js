@@ -61,7 +61,7 @@ class MyTerminal extends React.Component {
 
       if (!isLogin()) {
         __this.term.writeln("trying to auto_refresh...");
-        await autoRefresh().then(() => {
+        autoRefresh().then(() => {
           __this.token = getAccessToken();
         });
       }
