@@ -4,14 +4,14 @@ import { getLanguage, storeCode } from "../../cache/cache";
 export default function Monaco(props: any) {
   const options = {
     selectOnLineNumbers: true,
+    fontSize: 19,
   };
   const onChange = (code: string, e: any) => {
     console.log("on change");
 
     props.setCode(code);
     if (props.setNeedSave) props.setNeedSave(true);
-    if (!props.prof)
-      storeCode(getLanguage(), code);
+    if (!props.prof) storeCode(getLanguage(), code);
   };
   const onMounted = (editor: any, monaco: any) => {
     console.log("language", props.language);

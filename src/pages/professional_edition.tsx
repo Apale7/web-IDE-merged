@@ -13,6 +13,7 @@ import LoginButton from "../components/login_button/login_button";
 import queryString from "query-string";
 import { FileStat, getDirectory, startContainer } from "../api/container";
 import { Header } from "antd/lib/layout/layout";
+import { getIP } from "../api/conf";
 const languages = ["cpp", "java", "javascript", "python"];
 
 const dirTreeStyle = [
@@ -36,10 +37,11 @@ const saveFile = (containerID: string, path: string, code: string) => {
 
 function ProfessionalEdition(props: any) {
   // const history = useHistory();
+  getIP();
   const qs = queryString.parse(props.location.search);
 
   const container_id: string = String(qs.container_id); //容器id
-  const host = "192.168.101.66:8000"; //终端服务器的host
+  const host = "172.16.229.167:8000"; //终端服务器的host
   const [language, setLanguage] = useState(getLanguage()); //当前文件的语言，打开文件时根据后缀名自动识别
   const [code, setCode] = useState("This is the welcome page"); //当前编辑器中的内容
   const [selectedFile, setSelectedFile] = useState(""); //当前打开的文件的路径

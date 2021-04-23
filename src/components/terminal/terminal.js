@@ -44,7 +44,7 @@ class MyTerminal extends React.Component {
   componentDidMount() {
     let terminalContainer = document.getElementById("terminal");
     this.term = new Terminal({
-      rows: 15,
+      rows: 12,
     });
     // this.term = new Terminal({
     //     cursorBlink: true

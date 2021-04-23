@@ -130,7 +130,7 @@ function MyTabs(props: any) {
         <MyTextArea
           value={props.output}
           setValue={props.setOutput}
-          disabled={true}
+          // disabled={true}
         />
       </TabPane>
     </Tabs>

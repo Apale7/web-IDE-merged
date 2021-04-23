@@ -6,6 +6,7 @@ import { withRouter } from "react-router";
 import { useEffect } from "react";
 import { isLogin } from "../auth/login";
 import { Link } from "react-router-dom";
+import { getIP } from "../api/conf";
 const Login = (props: any) => {
   useEffect(() => {
     if (isLogin()) {
